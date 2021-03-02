@@ -555,6 +555,28 @@ function reboot_setup()
     reboot
 }
 
+function download_games_from_archive_org()
+{
+  options=(
+    PSX
+  )
+
+  while true; do
+
+    cmd=(dialog --backtitle "$__backtitle" --title "Choose platform" --cancel-label "Exit" --no-tags --menu "Choose platform" 22 76 16)
+    choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    [[ -z "$choice" ]] && break
+
+    case "$choice" in
+      PSX)
+
+    esac
+  done
+
+}
+
+
+
 function download_psx_images_setup()
 {
     python3 ~/RetroPie-Setup/psx_json_files.py
