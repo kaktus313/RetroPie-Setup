@@ -555,6 +555,21 @@ function reboot_setup()
     reboot
 }
 
+function download_games_show_platform_links()
+{
+  local $file_path
+
+  case $1 in
+    PSX) $file_path="~/Retropie-Setup/psx_platform_links.cfg"
+  esac
+
+  while true; do
+    cmd=(dialog --backtitle "$__backtitle" --title "Choose link" --cancel-label "Exit" --no-tags --menu "Choose archive.org link" 22 76 16 --file $file_path)
+    choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    [[ -z "$choice" ]] && break
+  done
+}
+
 function download_games_from_archive_org()
 {
   options=(
@@ -567,15 +582,11 @@ function download_games_from_archive_org()
     choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     [[ -z "$choice" ]] && break
 
-    case "$choice" in
-      PSX)
+    download_games_show_platform_links $choice
 
-    esac
   done
 
 }
-
-
 
 function download_psx_images_setup()
 {
@@ -688,7 +699,7 @@ function gui_setup() {
                 reboot_setup
                 ;;
             D)
-                download_psx_images_setup
+                download_games_from_archive_org
                 ;;
 
         esac
